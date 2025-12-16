@@ -1,0 +1,31 @@
+<?php
+session_start();
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php");
+    exit();
+}
+$username = $_SESSION['username'];
+?>
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>خوش آمدید</title>
+<style>
+    body { font-family: Arial, sans-serif; background: linear-gradient(135deg,#6a11cb,#2575fc); color: white; display: flex; justify-content:center; align-items:center; height:100vh; margin:0;}
+    .welcome-box { text-align:center; background: rgba(255,255,255,0.1); padding:60px 80px; border-radius:20px;}
+    h1 { font-size:3em; margin-bottom:20px; }
+    p { font-size:1.5em; margin-bottom:40px; }
+    a { color:white; background:#ff416c; padding:12px 30px; border-radius:50px; text-decoration:none; font-size:1.2em; }
+    a:hover { background:#ff4b2b; }
+</style>
+</head>
+<body>
+<div class="welcome-box">
+    <h1>خوش آمدی، <?php echo htmlspecialchars($username); ?>!</h1>
+    <p>از ورود شما خوشحالیم 🎉</p>
+    <a href="logout.php">خروج</a>
+</div>
+</body>
+</html>
