@@ -1,0 +1,147 @@
+<?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// اتصال به دیتابیس
+$conn = new mysqli("localhost", "root", "", "save");
+
+if ($conn->connect_error) {
+    die("❌ خطا در اتصال به دیتابیس: " . $conn->connect_error);
+}
+
+// اجرای SELECT برای گرفتن داده‌ها
+$sql = "SELECT id, first_name, last_name, father_name, user_name FROM save_db ORDER BY id DESC";
+$result = $conn->query($sql);
+?>
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>لیست کاربران</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600&display=swap');
+
+body {
+    background: linear-gradient(135deg, #5b92b0, #2f6f85);
+    font-family: 'Vazirmatn', Tahoma, sans-serif;
+    margin: 0;
+    padding: 50px;
+    color: #333;
+    text-align: center;
+}
+
+h2 {
+    color: #fff;
+    margin-bottom: 25px;
+}
+
+.table-container {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    width: 80%;
+    max-width: 900px;
+    margin: auto;
+    overflow-x: auto;
+    animation: fadeIn 0.7s ease;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1; transform: translateY(0);}
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 15px;
+}
+
+th {
+    background-color: #2f6f85;
+    color: #fff;
+    padding: 12px;
+    text-align: center;
+}
+
+td {
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px;
+    text-align: center;
+    color: #333;
+}
+
+tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+tr:hover {
+    background-color: #e3f2f9;
+    transition: 0.2s;
+}
+
+.no-data {
+    color: #555;
+    padding: 20px;
+    font-weight: 600;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 25px;
+    background: #2f6f85;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: 0.3s;
+}
+.back-link:hover {
+    background: #3fa0c6;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 12px rgba(47,111,133,0.3);
+}
+</style>
+</head>
+<body>
+
+<h2>📋 لیست کاربران ثبت‌شده</h2>
+
+<div class="table-container">
+<?php
+if ($result->num_rows > 0) {
+    echo "<table>";
+    echo "<tr>
+            <th>ردیف</th>
+            <th>نام</th>
+            <th>نام خانوادگی</th>
+            <th>نام پدر</th>
+            <th>نام کاربری</th>
+          </tr>";
+
+    $i = 1;
+    while ($row = $result->fetch_assoc()) {
+        echo "<tr>";
+        echo "<td>" . $i++ . "</td>";
+        echo "<td>" . htmlspecialchars($row['first_name']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['last_name']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['father_name']) . "</td>";
+        echo "<td>" . htmlspecialchars($row['user_name']) . "</td>";
+        echo "</tr>";
+    }
+
+    echo "</table>";
+} else {
+    echo "<div class='no-data'>هیچ کاربری ثبت نشده است ❌</div>";
+}
+$conn->close();
+?>
+</div>
+
+<a href="login.php" class="back-link">بازگشت به صفحه ورود</a>
+
+</body>
+</html>
