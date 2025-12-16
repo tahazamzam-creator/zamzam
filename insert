@@ -1,0 +1,23 @@
+
+<?php
+include 'conection.php';
+$x=$_POST["f_name"];
+$y=$_POST["l_name"];
+$s=$_POST["fa_name"];
+$h=$_POST["username"];
+$g=$_POST["n_code"];
+$f=$_POST["pas"];
+
+$servername="localhost";
+$username="root";
+$password="";
+$database="student";
+$conn= connect("localhost","root","","student");
+function ql($x , $y , $s , $h ,$g, $f,$conn)
+{
+ $q="INSERT INTO stude (f_name, l_name, fa_name, username, n_code , pas)
+ VALUES ('$x' , '$y' , '$s' , '$h' , '$g' , '$f')";
+ mysqli_query($conn,$q);
+}
+ ql($x, $y, $s , $h, $g ,$f,$conn);
+?>
